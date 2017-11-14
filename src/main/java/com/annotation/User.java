@@ -3,7 +3,7 @@ package com.annotation;
 /**
  * Created by user on 2017/11/13.
  */
-@Excel(start=2)
+@Excel(start = 2)
 public class User {
 
     @ExcelCell("filed1")

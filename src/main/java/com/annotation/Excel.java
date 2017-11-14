@@ -12,16 +12,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Excel {
-    enum Struct {
-        ANNOTATION, XML
-    }
-
-    enum TitleType {
-        SIMPLE, MULTIPLE
-    }
-
     /**
      * 从多少行开始解析数据
+     *
      * @return
      */
     int start() default 1;
@@ -29,5 +22,13 @@ public @interface Excel {
     Struct struct() default Struct.ANNOTATION;
 
     TitleType titleType() default TitleType.SIMPLE;
+
+    enum Struct {
+        ANNOTATION, XML
+    }
+
+    enum TitleType {
+        SIMPLE, MULTIPLE
+    }
 }
 

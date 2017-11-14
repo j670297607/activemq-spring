@@ -17,6 +17,7 @@ import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+
 import com.annotation.Excel.TitleType;
 
 /**
@@ -36,7 +37,7 @@ public class SheetHandler<ModelType> extends DefaultHandler {
     private SharedStringsTable sst;
 
     private String titleString;
-    private Map<String,String> titlemap;
+    private Map<String, String> titlemap;
     private TitleType titleType;
 
     public SheetHandler(Class<ModelType> clazz, SharedStringsTable sst) {
@@ -44,20 +45,17 @@ public class SheetHandler<ModelType> extends DefaultHandler {
         this.fieldmap = Maps.newHashMap();
         this.clazz = clazz;
         this.sst = sst;
-        this.titlemap=Maps.newHashMap();
-        this.titleString="";
+        this.titlemap = Maps.newHashMap();
+        this.titleString = "";
     }
-
-
 
     @Override
     public void startDocument() throws SAXException {
         super.startDocument();
-        titleType=ExcelUtil.getExcelTitleType(clazz);
+        titleType = ExcelUtil.getExcelTitleType(clazz);
     }
 
-
-
+    @Override
     public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
         if (name.equals("row")) { // row => new line
             start = ExcelUtil.getExcelDataStart(clazz);
@@ -73,8 +71,8 @@ public class SheetHandler<ModelType> extends DefaultHandler {
             line++;
         } else if (name.equals("c")) { // c => cell
 
-            if(titleType.equals(TitleType.SIMPLE)){
-                if(line == start){
+            if (titleType.equals(TitleType.SIMPLE)) {
+                if (line == start) {
                     String cellStr = attributes.getValue("r");
                     titleString = cellStr.replaceAll("[0-9]", "");
                 }
@@ -84,7 +82,7 @@ public class SheetHandler<ModelType> extends DefaultHandler {
                 String cellStr = attributes.getValue("r");
                 String key = cellStr.replaceAll("[0-9]", "");
 
-                if(titleType.equals(TitleType.SIMPLE)){
+                if (titleType.equals(TitleType.SIMPLE)) {
                     key = titlemap.get(key);
                 }
 
@@ -108,8 +106,8 @@ public class SheetHandler<ModelType> extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String name) throws SAXException {
 
-        if(titleType.equals(TitleType.SIMPLE)){
-            if(line==start){
+        if (titleType.equals(TitleType.SIMPLE)) {
+            if (line == start) {
                 int idx = Integer.parseInt(lastContents);
                 String title = new XSSFRichTextString(sst.getEntryAt(idx)).toString().trim();
                 titlemap.put(titleString, title);
@@ -128,7 +126,7 @@ public class SheetHandler<ModelType> extends DefaultHandler {
                     String setMethodName = "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
                     try {
                         Field field = FieldUtils.getField(clazz, fieldName, true);
-                        Method setMethod = clazz.getMethod(setMethodName, new Class[] { field.getType() });
+                        Method setMethod = clazz.getMethod(setMethodName, new Class[]{field.getType()});
                         Type[] ts = setMethod.getGenericParameterTypes();
                         // 只要一个参数,判断类型
                         String xclass = ts[0].toString();
@@ -140,6 +138,7 @@ public class SheetHandler<ModelType> extends DefaultHandler {
             }
         }
     }
+
     public void setValue(String xclass, ModelType tObject, Method setMethod, String value) throws Exception {
         if (xclass.equals("class java.lang.String")) {
             setMethod.invoke(tObject, value);
@@ -178,7 +177,5 @@ public class SheetHandler<ModelType> extends DefaultHandler {
     public List<ModelType> getData() {
         return dataList;
     }
-
-
 
 }

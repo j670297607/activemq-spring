@@ -1,12 +1,7 @@
 package com.annotation;
 
-import com.google.common.collect.Lists;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by user on 2017/11/13.

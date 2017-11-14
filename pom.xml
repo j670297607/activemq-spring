@@ -11,6 +11,9 @@
 <!-- 版本管理 -->
 <properties>
   <springframework>4.1.8.RELEASE</springframework>
+  <aparchepoi>3.17</aparchepoi>
+  <googleguava>23.4-jre</googleguava>
+  <aparchecommonconfig>1.9</aparchecommonconfig>
 </properties>
 
 <dependencies>
@@ -88,6 +91,38 @@
     <version>5.12.1</version>
   </dependency>
 
+  <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+  <dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>${aparchepoi}</version>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml    WorkbookFactory在该包中-->
+  <dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>${aparchepoi}</version>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+  <dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>${googleguava}</version>
+  </dependency>
+  <dependency>
+    <groupId>commons-configuration</groupId>
+    <artifactId>commons-configuration</artifactId>
+    <version>${aparchecommonconfig}</version>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/xerces/xerces -->
+  <dependency>
+    <groupId>xerces</groupId>
+    <artifactId>xerces</artifactId>
+    <version>2.2.1</version>
+  </dependency>
+
+
+
   <!-- 自用jar包，可以忽略-->
   <dependency>
     <groupId>commons-httpclient</groupId>
@@ -106,6 +141,14 @@
       <configuration>
         <port>8080</port>
         <path>/</path>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <configuration>
+        <source>1.6</source>
+        <target>1.6</target>
       </configuration>
     </plugin>
   </plugins>
